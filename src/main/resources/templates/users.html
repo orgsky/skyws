@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>SKY空间</title>
+</head>
+<body>
+	<li th:each="user:${users}">
+	<a href="javascript:void(0)" class="glyphicon glyphicon-user" th:data-id="*{user.id}" th:data-code="*{user.usercode}" onclick="showUser(this)" th:text="*{user.username}"></a></li>
+</body>
+</html>

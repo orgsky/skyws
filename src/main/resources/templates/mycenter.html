@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>SKY空间</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/mystyle.css" rel="stylesheet">
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+<link href="/static/css/mystyle.css" rel="stylesheet">
+</head>
+
+<style>
+#main-nav.nav-tabs.nav-stacked>li>a {
+	padding: 15px 8px;
+	font-size: 20px;
+	font-weight: 900;
+	color: #4A515B;
+}
+
+.nav-tabs {
+	border-bottom: 0px solid #ddd;
+}
+
+#main-nav.nav-tabs.nav-stacked>li.active>a, #main-nav.nav-tabs.nav-stacked>li>a:hover
+	{
+	color: #FFF;
+	background: #3C4049;
+	border-color: #2B2E33;
+}
+
+#main-nav.nav-tabs.nav-stacked>li {
+	margin-bottom: 20px;
+}
+</style>
+<body>
+	<nav th:replace="fragment/navbar :: navbar"></nav>
+	<nav th:replace="fragment/leftbar :: leftbar"></nav>
+	<nav th:replace="fragment/footbar :: footbar"></nav>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>SKY空间</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<style>
+.row {
+	margin-top: 10px;
+}
+</style>
+<body>
+	<div class="container" style="margin-top: 10px;">
+	<form role="form" action="/user/persist" method="post" th:object="${user}" enctype="multipart/form-data">
+	<input type="hidden"  th:field="*{id}"/>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">基本信息</h3>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="form-group">
+							<label for="usercode" class="col-lg-4 control-label"
+								th:text="用户编号"></label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" readonly="readonly" th:field="*{usercode}"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="form-group">
+							<label for="nickname" class="col-lg-4 control-label" th:text="昵称"></label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" autofocus="autofocus" required="required" th:field="*{nickname}"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="form-group">
+							<label for="username" class="col-lg-4 control-label" th:text="姓名"></label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" th:field="*{username}"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="form-group">
+							<label for="idcard" class="col-lg-4 control-label" th:text="身份证号"></label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" th:field="*{idcard}" />
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="form-group">
+							<label for="birthdate" class="col-lg-4 control-label"
+								th:text="生日"></label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" autofocus="autofocus"
+									required="required" th:field="*{birthdate}"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="form-group">
+							<label for="sex" class="col-lg-4 control-label" th:text="性别"></label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" th:field="*{sex}"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="form-group">
+							<label for="phone" class="col-lg-4 control-label" th:text="手机号"></label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" th:field="*{phone}"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-8">
+						<div class="form-group">
+							<label for="address" class="col-lg-2 control-label"
+								th:text="居住地址"></label>
+							<div class="col-lg-10">
+								<input class="form-control" type="text" autofocus="autofocus"
+									required="required" th:field="*{address}"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="form-group">
+							<label for="email" class="col-lg-4 control-label" th:text="邮箱"></label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" th:field="*{email}"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="form-group">
+							<label for="education" class="col-lg-4 control-label"
+								th:text="学历"></label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" autofocus="autofocus"
+									required="required" th:field="*{education}"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="form-group">
+							<label for="profession" class="col-lg-4 control-label" th:text="专业"></label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" th:field="*{profession}"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="form-group">
+							<label for="qq" class="col-lg-4 control-label" th:text="QQ"></label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" th:field="*{qq}"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">头像</h3>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-sm-6 col-md-3">
+						<a href="#" class="thumbnail"><img th:src="*{headimg}" alt="无头像"></a>
+						<div class="caption">
+							<p><input type="file"  name="headimg" /></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary" style="display:block;margin:0 auto;">提交修改</button>
+		</form>
+	</div>
+</body>
+</html>

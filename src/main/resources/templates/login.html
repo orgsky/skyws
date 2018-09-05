@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>SKY空间</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<link rel="stylesheet"
+	href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+<script src="/webjars/jquery/jquery.min.js" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.js"></script>
+<script
+	src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+	function toReg(){
+		location.href="/toReg"
+	}
+	</script>
+</head>
+<body style="background: #e9ecef;">
+	<div class="container">
+		<div class="jumbotron text-info" style="margin-bottom: 0rem;">
+			<h1>SKY商城</h1>
+			<p>&nbsp;&nbsp;基于好友间即时通讯又能轻松购物，这是一种怎样的体验，来试试？</p>
+		</div>
+		<div class="row">
+			<div th:replace="fragment/marq :: marq"></div>
+			<div th:replace="fragment/lgnfm :: lgnfm"></div>
+		</div>
+	</div>
+</body>
+</html>

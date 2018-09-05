@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>SKY空间</title>
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
+		th:fragment="navbar" th:object="${user}" >
+			<a class="navbar-brand" href="/"><strong>SKY空间</strong></a>
+			<ul class="nav navbar-nav">
+				<li><a href="/">开源商城</a></li>
+				<li><a href="/chat/">SKY聊天室</a></li>
+				<li><a href="#">SKY笔记</a></li>
+				<li><a href="#">网站帮助</a></li>
+			</ul>
+			<form action="#" class="navbar-form navbar-left">
+				<input type="text" placeholder="请输入.." class="form-control" />
+				<button type="submit">
+					<span class="glyphicon glyphicon-search"></span>
+				</button>
+			</form>
+			<div class="navbar-right" style="margin-right: 70px;">
+						<ul class="nav nav-pills">
+							<li class="dropdown"><a href="/mycenter" 
+					style="background-image: url('/static/img/0.jpg'); width: 45px; height: 45px;"><span
+									class="caret" style="margin-left: 30px;"></span></a>
+								<ul class="dropdown-menu" style="text-align: center;">
+									<li ><a href="/mycenter">个人中心</a></li>
+									<li><a href="#">注销</a></li>
+								</ul></li>
+						</ul>
+			</div>
+	</nav>
+</body>
+</html>

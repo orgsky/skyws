@@ -1,0 +1,35 @@
+.navbar-inverse input[type="text"] {
+	background: #333;
+	border: none;
+	color: #999;
+}
+
+.navbar-inverse button[type="submit"] {
+	background: none;
+	border: none;
+	color: #999;
+}
+
+.navbar-inverse form {
+	position: relative;
+}
+
+.navbar-inverse .glyphicon-search {
+	position: absolute;
+	top: 25%;
+}
+
+.navbar-right .nav>li:hover .dropdown-menu {
+	display: block;
+	min-width: 103px;
+	right: -57px;
+	top: 44px;
+}
+
+.navbar-nav>li>a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 40px;
+}
+
+

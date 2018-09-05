@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>SKY空间</title>
+</head>
+<body>
+	<div class="col-sm-9 col-md-9"
+		style="padding-right: 0px; padding-left: 0px; width: 100%"  th:fragment="marq">
+		<div id="marq" class="carousel slide " data-ride="carousel">
+			<ul class="carousel-indicators">
+				<li data-target="#marq" data-slide-to="0" class="active"></li>
+				<li data-target="#marq" data-slide-to="1"></li>
+			</ul>
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<img src="/static/img/mar1.jpg">
+				</div>
+				<div class="carousel-item">
+					<img src="/static/img/mar0.jpg">
+				</div>
+			</div>
+			<a href="#marq" class="carousel-control-prev" data-slide="prev">
+				<span class="carousel-control-prev-icon"></span>
+			</a> <a href="#marq" class="carousel-control-next" data-slide=next> <span
+				class="carousel-control-next-icon"></span>
+			</a>
+		</div>
+	</div>
+</body>
+</html>

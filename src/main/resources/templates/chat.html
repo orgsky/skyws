@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>SKY空间</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="/webjars/jquery/jquery.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/static/js/chatjs.js" charset="utf-8"></script>
+<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/mystyle.css" rel="stylesheet">
+<link href="/static/css/chatcss.css" rel="stylesheet" media="screen" type="text/css" />
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script type="text/javascript" charset="utf-8" th:inline="javascript" >
+//<![CDATA[
+	//登陆的人
+	var loginUser =/*[[${loginUser}]]*/;
+	//成员数组
+	var userArray = new Array()
+	var userList=/*[[${userList}]]*/;
+	var searchType="1";
+	var wantPanty;
+	userList.forEach(function( val, index ) {
+		userArray.push(new Array(val.id,val.username, '/static/img/0.jpg',val.usercode))
+	});
+	function showUser(obj){
+		var userId=$(obj).data("id");
+		wantPanty=$(obj).data("code");
+		var name=$(obj).text();
+		$('#myModal').modal();
+		$("#addInfo").html("<font>是否加{<strong> "+name+"</strong>  }为好友?</font>");
+	}
+	function showGroup(obj){
+		var userId=$(obj).data("id");
+		var name=$(obj).text();
+		wantPanty=$(obj).data("code");
+		$('#myModal').modal();
+		$("#addInfo").html("<font>是否加入{<strong> "+name+"</strong>  }的群?</font>");
+	}
+	
+	$(function(){
+		$("#search").on('input propertychange',function(){
+			$(".dropdown-menu").css({"min-width":"200px","top":"44px"});
+			$("#users").show();
+			$("#users").load("/user/users",{"searchType":searchType,"keyword":$(this).val()})
+		});
+		$("#search").blur(function(){
+			$(".dropdown-menu").css({"min-width":"200px","top":"44px"});
+			$("#users").hide(200);
+		});
+		
+		$("#navBarUl li").click(function(){
+			$(this).addClass("active").siblings().removeClass("active");
+			$("#cmnTitle").html($(this).children("a").html());
+			var barType=$(this).children("a").data("bar");
+			if(barType=="ql"){
+				$("#cmnTitle").append("<a href='javascript:void(0)' onclick='addGroup()' class='label label-default' style='height:31px;float:right;font-size:14px;padding-top:10px;'>建群</a>");
+				$.post("/group/mygroup",  {},  function(data,status){
+					clearChatLeft();
+					data.data.forEach(function( val, index ) {
+						var g=new Array(val.id,val.groupName, '/static/img/0.jpg',val.groupCode);
+						if(index==0){
+							chatUser=g;
+						}
+						newGroup('.ulist', g);
+						stompClient.subscribe('/talk/'+val.groupCode, function (result) {
+					        	showContent(JSON.parse(result.body));
+					        });
+					});
+				});
+			}else if(barType=="hy"){
+				$.post("/user/myfriends",  {},  function(data,status){
+					clearChatLeft();
+					data.data.forEach(function( val, index ) {
+						var g=new Array(val.id,val.username, '/static/img/0.jpg',val.usercode);
+						if(index=0){
+							chatUser=g;
+						}
+						newUser('.ulist', g);
+					});
+				});
+				
+			}else if(barType=="lt"){
+				$.post("/user/myfriends",  {},  function(data,status){
+					chatUser=null;
+					clearChatLeft();
+					data.data.forEach(function( val, index ) {
+						var g=new Array(val.id,val.username, '/static/img/0.jpg',val.usercode);
+						if(index=0){
+							chatUser=g;
+						}
+						newUser('.ulist', g);
+					});
+				});
+			}
+		})
+		
+	})
+	
+	function addGroup(){
+		$('#groupModal').modal();
+	}
+	
+	function createGroup(){
+		$.ajax({
+		    type: 'post',
+		    url: '/group/saveGroup',
+		    data: $("#groupForm").serialize(),
+		    success: function(data) {
+		    	$("#createGroupBtn").attr('disabled',true);
+		    	if(data.code){
+		    		$("#groupId").val(data.data.id);
+		    		$("#groupCode").val(data.data.groupCode);
+		    		$("#groupName").val(data.data.groupName);
+		    		$("#sequence").val(data.data.sequence);
+		    	}
+		    }
+		});
+	}
+	
+	function clearGroup(){
+    		$("#groupId").val('');
+    		$("#groupCode").val('');
+    		$("#groupName").val('');
+    		$("#sequence").val('');
+		$("#createGroupBtn").attr('disabled',false);
+	}
+	
+	function changeSearchType(type){
+			searchType=type;
+			console.log("type="+type);
+			$("#serTypeBtn").html("个人");
+			if(type=="2"){
+			$("#serTypeBtn").html("群聊");
+			}
+	}
+	
+	function confirmRelation(){
+		$.post("/chat/joinParty",  {"partCode":wantPanty},  function(data,status){
+		/* 	chatUser=null;
+			clearChatLeft();
+			data.data.forEach(function( val, index ) {
+				var g=new Array(val.id,val.username, '/static/img/0.jpg',val.usercode);
+				if(index=0){
+					chatUser=g;
+				}
+				newUser('.ulist', g);
+			}); */
+		$('#addInfo').text('通知已经发送,请等待回复');
+		$('.modal-body').removeClass('alert-info').addClass('alert-success');
+			
+		});
+		
+		
+	}
+	function cancelConfirm(){
+		$('.modal-body').removeClass('alert-success').addClass('alert-info')
+	}
+	
+	
+	//]]>
+</script>
+<style type="text/css">
+.navbar-nav>li>a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 54px;
+}
+
+</style>
+
+</head>
+<body>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					用户信息
+				</h4>
+			</div>
+			<div class="modal-body alert-info" style="text-align: center;">
+				<h3 id="addInfo"></h3>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" onclick="confirmRelation()">确定
+				</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal" onclick="cancelConfirm()">
+					关闭
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+
+
+<div class="modal fade " id="groupModal" tabindex="-1" role="dialog" aria-labelledby="groupTitle" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+				<form action="javascript:void(0)" role="form" class="form-horizontal" id="groupForm">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="groupTitle">建群</h4>
+					</div>
+					<div class="modal-body">
+					<input type="hidden" class="form-control"  name="id" id="groupId">
+					<input type="hidden" class="form-control"  name="owner.id" id="ownerId" th:value="${loginUser.id}">
+							<div class="row">
+							<div class="col-md-6">
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="input-group">
+												<span class="input-group-addon">编码</span>
+												<input type="text" class="form-control" id="groupCode"  name="groupCode" readonly="readonly">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="input-group">
+												<span class="input-group-addon">群主</span>
+												<input type="text" class="form-control" id="ownerName" name="owner.username" th:value="${loginUser.username}" readonly="readonly">
+											</div>
+										</div>
+									</div>
+								</div>
+							
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<div class="col-md-12">
+										<div class="input-group">
+											<span class="input-group-addon">群名</span>
+											<input type="text" class="form-control" id="groupName" name="groupName">
+										</div>
+										</div>
+									</div>
+								</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="input-group">
+											<span class="input-group-addon">序号</span>
+											<input type="text" class="form-control" id="sequence" name="sequence">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" onclick="createGroup()" id="createGroupBtn">创建</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="clearGroup()">
+							关闭</button>
+					</div>
+				</form>
+			</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+
+
+
+	<div class="container" style="padding: 0px;">
+		<nav class="navbar navbar-inverse" style="margin-bottom: 0px;">
+			<a class="navbar-brand img-rounded thumbnail" href="#"
+				style="background-image: url('/static/img/0.jpg'); width: 50px; height: 50px;"></a>
+			<ul class="nav navbar-nav" id="navBarUl">
+				<li><a href="javascript:void(0)" data-bar="lt">最近聊天</a></li>
+				<li><a href="javascript:void(0)" data-bar="hy">我的好友</a></li>
+				<li><a href="javascript:void(0)" data-bar="ql">我的群聊</a></li>
+			</ul>
+			<form action="javascript:void(0)" class="navbar-form navbar-left">
+				<div class="input-group">
+					<div class="input-group-btn">
+						<button  type="button" class="btn dropdown-toggle navbar-inverse" style="color: #999;background-color: #222;border: none;height: 34px;" data-toggle="dropdown">
+							<font id="serTypeBtn">个人</font>
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							<li><a href="javascript:void(0)" onclick="changeSearchType('1')">个人</a></li>
+							<li><a href="javascript:void(0)" onclick="changeSearchType('2')">群聊</a></li>
+						</ul>
+					</div><!-- /btn-group -->
+					<input type="text" placeholder="请输入.." class="form-control" id="search"/>
+				</div><!-- /input-group -->
+				<ul class="dropdown-menu" style="text-align: center;right: 100px;height: 150px;overflow-y:auto;" id="users">
+				</ul>
+				<button type="submit">
+					<span class="glyphicon glyphicon-search"></span>
+				</button>
+			</form>
+			<a href="/" class="btn navbar-btn btn-primary navbar-right"
+				style="margin-right: 5px;">返回主界面</a>
+		</nav>
+		<div class="row">
+			<div class="col-sm-3">
+				<h3 id="cmnTitle">最近聊天</h3>
+				<ul class="nav nav-pills nav-stacked ulist">
+				</ul>
+			</div>
+			<div class="col-sm-9">
+				<ul class="nav nav-tabs" id="mid_top">
+				</ul>
+				<div style="height: 600px;overflow-y: auto;overflow-x: hidden;" class="my_show">
+					<div class="con_box"></div>
+				</div>
+				<div id="mid_say" style="width: 100%">
+					<textarea class="form-control" id="texterea" style="border: none;">请输入..</textarea>
+				</div>
+				<a id="btn_send" class="btn btn-primary" href="#"
+					style="float: right; margin-bottom: 20px;width: 100px;">发送</a>
+			</div>
+		</div>
+		<nav class="navbar navbar-inverse">
+			<p>底部内容</p>
+		</nav>
+	</div>
+</body>
+</html>

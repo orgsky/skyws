@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>SKY空间</title>
+</head>
+<body>
+	<div class="container-fluid" style="margin-top: 60px;" th:fragment="leftbar">
+	<script th:inline="javascript">
+		//<![CDATA[
+		   $(document).ready(function() {
+			   loadFrag("myinfo");
+			   $("li").click(function(){
+			   		$(this).addClass("active").siblings().removeClass("active");
+			   		var info=$(this).data("info");
+			   		loadFrag(info);
+			   })
+		   })
+		   
+		 function  loadFrag(name){
+			   $("#content").load("/frag/",{
+					name:name
+				},
+				function(data,status){
+					console.log("数据: \n" + data + "\n状态: " + status);
+				});
+		   }
+			//]]>	
+		</script>
+	
+		<div class="row">
+			<div class="col-md-2">
+				<ul id="main-nav" class="nav nav-tabs nav-stacked" style="text-align: center;   position: fixed;">
+					<li class="active" data-info="myinfo"><a href="#"> <i class="glyphicon glyphicon-th-large"></i> 个人信息 </a></li>
+					<li data-info="mycart"><a href="#" > <i class="glyphicon glyphicon-shopping-cart"></i> 购&nbsp;物&nbsp;车 </a></li>
+					<li data-info="mygoods"><a href="#" class="nav-header collapsed" data-toggle="collapse"> <i class="glyphicon glyphicon-gift"></i> 我的商品 </a></li>
+					<li data-info="myaddr"><a href="#"> <i class="glyphicon glyphicon-home"></i> 地址管理 </a></li>
+					<li data-info="myorder"><a href="#"> <i class="glyphicon glyphicon-list-alt"></i> 订单管理 <span class="label label-warning">5</span></a></li>
+					<li data-info="myrecord"><a href="#"><i class="glyphicon glyphicon-credit-card"></i> 购买记录</a></li>
+					<li data-info="mysetting"><a href="#"><i class="glyphicon glyphicon-cog"></i> 系统设置</a></li>
+					<li data-info="mytask"><a href="#"><i class="glyphicon glyphicon-envelope"></i> 工单管理</a></li>
+					<li data-info="mywarn"><a href="#"><i class="glyphicon glyphicon-volume-up"></i> 系统消息</a></li>
+				</ul>
+			</div>
+			<div class="col-md-10" id="content"></div>
+		</div>
+	</div>
+</body>
+</html>

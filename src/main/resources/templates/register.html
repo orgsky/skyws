@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>SKY空间</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+<style type="text/css">
+i {
+	text-align: right;
+	font-weight: bold;
+}
+.input-group-addon{
+width: 80px;
+}
+
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td,
+	.table>tbody>tr>td, .table>tfoot>tr>td {
+	padding: 8px;
+	line-height: 1.42857143;
+	vertical-align: top;
+	border-top: none;
+}
+
+.error {
+	font-size: xx-small;
+	color: red;
+}
+</style>
+</head>
+<body style="background: #e9ecef;">
+	<div class="container">
+		
+		<div class="col-sm-6 col-md-6 alert-info"
+			style="border: 5px solid #17a2b814; border-radius: 25px;  float: right;margin-top: 100px;">
+			<div class="card-header"
+				style="font-weight: bolder; font-size: x-large;">用户注册</div>
+			<div class="card-body">
+				<form role="form" action="register" method="post" th:object="${user}">
+					<table class="table">
+						<tr>
+							<td>
+								<div class="input-group">
+									<span class="input-group-addon"><i>姓名</i></span>
+									<input type="text" class="form-control" placeholder="姓名" name="username" th:field="*{username}" />
+								</div>
+							</td>
+							<td>
+								<span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error" ></span>
+							</td>
+						</tr>
+						<tr>
+							<td><div class="input-group">
+									<span class="input-group-addon"><i>密码</i></span>
+									<input type="password" class="form-control" placeholder="密码" name="password">
+								</div></td>
+							<td>
+								<span th:if="${#fields.hasErrors('password')}" class="error"  th:errors="*{password}"></span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+							<div class="input-group">
+							<span class="input-group-addon"><i>确认密码</i></span>
+							<input type="password" class="form-control" placeholder="确认密码" name="password2">
+								</div>
+								</td>
+							<td>
+								<span th:if="${#fields.hasErrors('password')}" class="error"  th:errors="*{password}"></span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="input-group">
+									<span class="input-group-addon"><i>邮箱</i></span>
+									<input type="text" class="form-control" placeholder="邮箱" name="email"/>
+								</div>
+							</td>
+								<td>
+								<span th:if="${#fields.hasErrors('email')}" class="error"  th:errors="*{email}"></span>
+							</td>
+						</tr>
+						<tr>
+							<td><div class="input-group">
+									<span class="input-group-addon"><i>手机号</i></span> <input
+										type="text" class="form-control" placeholder="手机号"
+										name="phone">
+								</div></td>
+								<td>
+								<span th:if="${#fields.hasErrors('phone')}" class="error"  th:errors="*{phone}"></span>
+							</td>
+						</tr>
+						<tr>
+							<td><div class="input-group">
+									<span class="input-group-addon"><i>昵称</i></span> <input
+										type="text" class="form-control" placeholder="昵称"
+										name="nickname">
+								</div></td>
+								<td>
+								<span th:if="${#fields.hasErrors('nickname')}" class="error"  th:errors="*{nickname}"></span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="footer">
+									<button type="submit" class="btn btn-primary" style="width: 280px;">提交</button>
+								</div>
+							</td>
+							<td>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
