@@ -22,6 +22,8 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/sc/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/common/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/common/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/ueditor/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/ueditor/resources"/>
                         
         
         <property name="context-root" value="skyws"/>
