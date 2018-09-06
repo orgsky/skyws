@@ -1,4 +1,4 @@
-package com.inca.editor.define;
+package com.inca.skyws.define;
 
 /**
  * 处理状态接口

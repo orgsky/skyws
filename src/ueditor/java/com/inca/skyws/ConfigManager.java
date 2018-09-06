@@ -1,4 +1,4 @@
-package com.inca.editor;
+package com.inca.skyws;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import org.apache.commons.io.IOUtils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.inca.editor.define.ActionMap;
+import com.inca.skyws.define.ActionMap;
 
 /**
  * 配置管理器
@@ -115,7 +115,7 @@ public final class ConfigManager {
 	}
 
 	private void initEnv() throws FileNotFoundException, IOException {
-		String configContent = this.filter(IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("static/static/config.json")));
+		String configContent = this.filter(IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("static/ueditor/config.json")));
 		try {
 			JSONObject jsonConfig = JSONObject.parseObject(configContent);
 			this.jsonConfig = jsonConfig;

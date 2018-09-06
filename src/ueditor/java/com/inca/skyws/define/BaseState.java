@@ -1,10 +1,10 @@
-package com.inca.editor.define;
+package com.inca.skyws.define;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import com.inca.editor.Encoder;
+import com.inca.skyws.Encoder;
 
 public class BaseState implements State {
 

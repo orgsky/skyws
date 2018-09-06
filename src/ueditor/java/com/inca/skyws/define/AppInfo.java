@@ -1,4 +1,4 @@
-package com.inca.editor.define;
+package com.inca.skyws.define;
 
 import java.util.HashMap;
 import java.util.Map;

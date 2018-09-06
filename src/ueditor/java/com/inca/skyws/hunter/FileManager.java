@@ -1,4 +1,4 @@
-package com.inca.editor.hunter;
+package com.inca.skyws.hunter;
 
 import java.io.File;
 import java.util.Arrays;
@@ -7,11 +7,11 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 
-import com.inca.editor.PathFormat;
-import com.inca.editor.define.AppInfo;
-import com.inca.editor.define.BaseState;
-import com.inca.editor.define.MultiState;
-import com.inca.editor.define.State;
+import com.inca.skyws.PathFormat;
+import com.inca.skyws.define.AppInfo;
+import com.inca.skyws.define.BaseState;
+import com.inca.skyws.define.MultiState;
+import com.inca.skyws.define.State;
 
 public class FileManager {
 

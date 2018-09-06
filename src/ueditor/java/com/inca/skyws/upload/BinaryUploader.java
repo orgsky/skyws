@@ -1,4 +1,4 @@
-package com.inca.editor.upload;
+package com.inca.skyws.upload;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,11 +12,11 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.inca.editor.PathFormat;
-import com.inca.editor.define.AppInfo;
-import com.inca.editor.define.BaseState;
-import com.inca.editor.define.FileType;
-import com.inca.editor.define.State;
+import com.inca.skyws.PathFormat;
+import com.inca.skyws.define.AppInfo;
+import com.inca.skyws.define.BaseState;
+import com.inca.skyws.define.FileType;
+import com.inca.skyws.define.State;
 
 public class BinaryUploader {
 

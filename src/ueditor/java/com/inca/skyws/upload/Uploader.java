@@ -1,10 +1,10 @@
-package com.inca.editor.upload;
+package com.inca.skyws.upload;
 
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.inca.editor.define.State;
+import com.inca.skyws.define.State;
 
 public class Uploader {
 	private HttpServletRequest request = null;

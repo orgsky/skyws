@@ -21,7 +21,7 @@ public class SkySecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final Logger log = LoggerFactory.getLogger(SkySecurityConfig.class);
 
 	private static String[] permitPath = { "/", "/toReg", "/register", "/error", "/login", "/frag/**", "/static/**",
-			"/webjars/**","/user/**","/group/**" };
+			"/webjars/**","/user/**","/group/**","/ueditor/**" };
 	@Autowired
 	SkyUserDetailsService detailService;
 
@@ -35,10 +35,10 @@ public class SkySecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers(permitPath).permitAll().antMatchers("/**").fullyAuthenticated().and()
-				.formLogin().loginPage("/login").defaultSuccessUrl("/").failureForwardUrl("/login?error").and()
-				.rememberMe().tokenRepository(tokenRepository).tokenValiditySeconds(5000)
-				.userDetailsService(detailService).and().csrf().disable();
+		http.headers().frameOptions().sameOrigin().and().authorizeRequests().antMatchers(permitPath).permitAll()
+				.antMatchers("/**").fullyAuthenticated().and().formLogin().loginPage("/login").defaultSuccessUrl("/")
+				.failureForwardUrl("/login?error").and().rememberMe().tokenRepository(tokenRepository)
+				.tokenValiditySeconds(5000).userDetailsService(detailService).and().csrf().disable();
 		log.info("配置拦截路径：" + http);
 	}
 

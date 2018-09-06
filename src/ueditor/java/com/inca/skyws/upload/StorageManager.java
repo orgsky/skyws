@@ -1,4 +1,4 @@
-package com.inca.editor.upload;
+package com.inca.skyws.upload;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -9,9 +9,9 @@ import java.io.InputStream;
 
 import org.apache.commons.io.FileUtils;
 
-import com.inca.editor.define.AppInfo;
-import com.inca.editor.define.BaseState;
-import com.inca.editor.define.State;
+import com.inca.skyws.define.AppInfo;
+import com.inca.skyws.define.BaseState;
+import com.inca.skyws.define.State;
 
 public class StorageManager {
 	public static final int BUFFER_SIZE = 8192;

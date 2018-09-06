@@ -1,16 +1,16 @@
-package com.inca.editor;
+package com.inca.skyws;
 
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.inca.editor.define.ActionMap;
-import com.inca.editor.define.AppInfo;
-import com.inca.editor.define.BaseState;
-import com.inca.editor.define.State;
-import com.inca.editor.hunter.FileManager;
-import com.inca.editor.hunter.ImageHunter;
-import com.inca.editor.upload.Uploader;
+import com.inca.skyws.define.ActionMap;
+import com.inca.skyws.define.AppInfo;
+import com.inca.skyws.define.BaseState;
+import com.inca.skyws.define.State;
+import com.inca.skyws.hunter.FileManager;
+import com.inca.skyws.hunter.ImageHunter;
+import com.inca.skyws.upload.Uploader;
 
 public class ActionEnter {
 

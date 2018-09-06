@@ -1,4 +1,4 @@
-package com.inca.editor.define;
+package com.inca.skyws.define;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.inca.editor.Encoder;
+import com.inca.skyws.Encoder;
 
 /**
  * 多状态集合状态 其包含了多个状态的集合, 其本身自己也是一个状态

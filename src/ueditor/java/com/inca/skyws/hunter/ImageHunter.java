@@ -1,4 +1,4 @@
-package com.inca.editor.hunter;
+package com.inca.skyws.hunter;
 
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
@@ -8,13 +8,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.inca.editor.PathFormat;
-import com.inca.editor.define.AppInfo;
-import com.inca.editor.define.BaseState;
-import com.inca.editor.define.MIMEType;
-import com.inca.editor.define.MultiState;
-import com.inca.editor.define.State;
-import com.inca.editor.upload.StorageManager;
+import com.inca.skyws.PathFormat;
+import com.inca.skyws.define.AppInfo;
+import com.inca.skyws.define.BaseState;
+import com.inca.skyws.define.MIMEType;
+import com.inca.skyws.define.MultiState;
+import com.inca.skyws.define.State;
+import com.inca.skyws.upload.StorageManager;
 
 /**
  * 图片抓取器
