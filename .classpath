@@ -19,11 +19,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src/chat/java"/>
-	<classpathentry kind="src" path="src/chat/resources"/>
 	<classpathentry kind="src" path="src/sc/java"/>
-	<classpathentry kind="src" path="src/sc/resources"/>
 	<classpathentry kind="src" path="src/common/java"/>
-	<classpathentry kind="src" path="src/common/resources"/>
+	<classpathentry kind="src" path="src/chat/resources"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
