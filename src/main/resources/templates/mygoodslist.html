@@ -7,13 +7,13 @@
 	<tr th:each="goods:${goodsList}">
 		<td><img style="height: 45px;" src="/static/img/tv.jpg"
 			class="img-thumbnail"></td>
-		<td th:text="*{goods.goodsCode}">60SU470A</td>
-		<td th:text="*{goods.goodsName}">男士电动剃须刀</td>
-		<td th:text="*{goods.spec}">1个/盒</td>
-		<td th:text="*{goods.unit}">1kg</td>
-		<td th:text="*{goods.weight}">1kg</td>
-		<td th:text="*{goods.price}">129</td>
-		<td th:text="*{goods.stock}">100</td>
+		<td th:text="*{goods.goodsCode}"></td>
+		<td th:text="*{goods.goodsName}"></td>
+		<td th:text="*{goods.spec}"></td>
+		<td th:text="*{goods.unit}"></td>
+		<td th:text="*{goods.weight}"></td>
+		<td th:text="*{goods.price}"></td>
+		<td th:text="*{goods.stock}"></td>
 		<td>
 			<button type="button" class="btn btn-default btn-xs" th:data-id="*{goods.id}" onclick="deleteGoods(this)">
 				<span class="glyphicon glyphicon-remove"></span>

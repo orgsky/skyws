@@ -9,18 +9,29 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-$(function(){
-	$("tbody").load("/goods/mygoods");
-})
-function editGoods(obj){
-	alert(obj+":"+$(obj).data("id"));
-}
+	$(function() {
+		reloadMyGoods();
+	})
+	function reloadMyGoods(param){
+		$("#tlist").load("/goods/mygoods",param);
+		$("#goodsListPanel").show();
+		$("#goodsInfoPanel").hide();
+	}
+	
+	function editGoods(obj) {
+		//alert(obj + ":" + $(obj).data("id"));
+		$("#goodsInfoPanel").load("/goods/goodsinfo",{"id":$(obj).data("id")});
+		$("#goodsListPanel").hide();
+		$("#goodsInfoPanel").show();
+	}
 
-function deleteGoods(obj){
-	alert(obj+":"+$(obj).data("id"));
-}
-
-
+	function deleteGoods(obj) {
+		alert(obj + ":" + $(obj).data("id"));
+	}
+	
+	function searchGoods(){
+		reloadMyGoods({"keycode":$("#keycode").val(),"keyname":$("#keyname").val()});
+	}
 </script>
 </head>
 <style>
@@ -29,11 +40,27 @@ function deleteGoods(obj){
 }
 </style>
 <body>
-	<div class="container" style="margin-top: 10px;">
-
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">我的商品</h3>
+		<div class="panel panel-default"  id="goodsListPanel" style="margin-top: 10px;">
+			<div class="panel-heading" style="padding: 10px 15px 0px;">
+				<table class="table" style="padding: 3px 82px;">
+					<tr>
+						<td style="width: 45%;border-top: 0px solid #ddd;">
+							<div class="input-group">
+								<span class="input-group-addon">商品编码</span>
+								<input type="text" class="form-control" id="keycode" placeholder="商品编码">
+							</div>
+						</td>
+						<td style="width: 45%;border-top: 0px solid #ddd;">
+							<div class="input-group">
+								<span class="input-group-addon">商品名称</span>
+								<input type="text" class="form-control" id="keyname" placeholder="商品名称">
+							</div>
+						</td>
+						<td style="width: 20%;border-top: 0px solid #ddd;">
+							<button type="button" class="btn btn-primary" onclick="searchGoods()">查询</button>
+						</td>
+					</tr>
+				</table>
 			</div>
 			<div class="panel-body">
 				<table class="table table-hover">
@@ -50,12 +77,13 @@ function deleteGoods(obj){
 							<th>操作</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="tlist">
 					</tbody>
 				</table>
-
 			</div>
 		</div>
-	</div>
+		<div id="goodsInfoPanel">
+			
+		</div>
 </body>
 </html>
