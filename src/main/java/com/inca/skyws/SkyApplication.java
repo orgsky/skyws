@@ -7,7 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SkyApplication {
 
 	public static void main(String[] args) {
+		System.err.println("项目启动...");
 		SpringApplication.run(SkyApplication.class, args);
-
+		System.err.println("项目启动ok");
 	}
 }
