@@ -12,7 +12,7 @@
 <script type="text/javascript" src="/ueditor/ueditor.all.js"></script>
 <script type="text/javascript">
 	$(function() {
-		var ue = UE.getEditor('content', {
+		var ue = UE.getEditor('myeditor', {
 			autoHeightEnabled : true,
 			autoFloatEnabled : true,
 			initialFrameWidth : 1409,
@@ -32,9 +32,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">
-					基本信息 <input type="submit" class="btn btn-primary btn-sm"
-						style="float: right; margin-right: 50px; margin-top: 0px;"
-						value="提交修改" />
+					基本信息
 				</h3>
 
 			</div>
@@ -139,7 +137,10 @@
 			</div>
 		</div>
 		<label style="font-size: 16px; font-weight: 500;">&nbsp;&nbsp;&nbsp;&nbsp;商品描述</label>
-		<script id="content" type="text/plain"> </script>
+		<div id="myeditor" > </div>
+		<div style="text-align: center;margin-top: 2px;">
+			<input type="submit" class="btn btn-primary btn-sm"  value="提交修改" />
+		</div>
 	</form>
 </body>
 </html>
