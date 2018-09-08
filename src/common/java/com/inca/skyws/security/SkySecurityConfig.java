@@ -21,7 +21,7 @@ public class SkySecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final Logger log = LoggerFactory.getLogger(SkySecurityConfig.class);
 
 	private static String[] permitPath = { "/", "/toReg", "/register", "/error", "/login", "/frag/**", "/static/**",
-			"/webjars/**","/user/**","/group/**","/ueditor/**" };
+			"/webjars/**","/user/**","/group/**","/ueditor/**","/goods/**" };
 	@Autowired
 	SkyUserDetailsService detailService;
 

@@ -49,6 +49,9 @@ public class Goods extends BaseEntity {
 	@Column(precision = 20, scale = 10)
 	private BigDecimal weight;
 
+	@Title("库存")
+	private Integer stock;
+
 	@Title("图片")
 	private String pic;
 
@@ -173,6 +176,14 @@ public class Goods extends BaseEntity {
 
 	public void setSeller(User seller) {
 		this.seller = seller;
+	}
+
+	public Integer getStock() {
+		return stock;
+	}
+
+	public void setStock(Integer stock) {
+		this.stock = stock;
 	}
 
 }
