@@ -24,6 +24,13 @@
 		$("#goodsListPanel").hide();
 		$("#goodsInfoPanel").show();
 	}
+	
+	function createGoods(obj) {
+		//alert(obj + ":" + $(obj).data("id"));
+		$("#goodsInfoPanel").load("/goods/goodsinfo",{"id":$(obj).data("id")});
+		$("#goodsListPanel").hide();
+		$("#goodsInfoPanel").show();
+	}
 
 	function deleteGoods(obj) {
 		alert(obj + ":" + $(obj).data("id"));
@@ -57,7 +64,8 @@
 							</div>
 						</td>
 						<td style="width: 20%;border-top: 0px solid #ddd;">
-							<button type="button" class="btn btn-primary" onclick="searchGoods()">查询</button>
+							<button type="button" class="btn btn-primary btn-sm" onclick="searchGoods()">查询</button>
+							<button type="button" class="btn  btn-sm" onclick="createGoods()">新增商品</button>
 						</td>
 					</tr>
 				</table>

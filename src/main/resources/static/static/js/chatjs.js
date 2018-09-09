@@ -1,7 +1,7 @@
 var chatUser;
 var stompClient;
 $(function() {
-
+	disconnect();
 	connect();
 ////////////////////////////////socket/////////////////////////////////////////////////
 	
@@ -109,10 +109,6 @@ function loadChatRecord(partCode){
 				}
 				$("#user_contitle_user" + data.data.from.id).append('<div   style="text-align:left;font-family:Georgia;">' + data.data.from.username + data.data.fromTime + "<p>" + data.data.content + '</p></div>');
 			}
-			
-			
-			
-			
 			var g=new Array(val.id,val.groupName, '/static/img/0.jpg',val.groupCode);
 			if(index==0){
 				chatUser=g;
@@ -208,40 +204,39 @@ function loadChatRecord(partCode){
 	        	switch (data.type)
 	        	{
 	        	case 3:
-	      		 $('#myModal').modal();
-	      		 $("#addInfo").html("<font>{<strong> "+fromName+"</strong>  }加你为好友</font>");
+	      		showWarn({"fromName":fromName,"msg":"加你为好友"});
 	        	  break;
 	        	case 4:
-	        	 $('#myModal').modal();
-	      		 $("#addInfo").html("<font>{<strong> "+fromName+"</strong>  }把你删除好友</font>");
+	      		showWarn({"fromName":fromName,"msg":"把你删除好友"});
 	        	  break;
 	        	case 5:
-	        	 $('#myModal').modal();
-	      		 $("#addInfo").html("<font>{<strong> "+fromName+"</strong>  }加入了你的群</font>");
+	      		showWarn({"fromName":fromName,"msg":"加入了你的群"});
 	        	  break;
 	        	case 6:
-	        		 $('#myModal').modal();
-		      		 $("#addInfo").html("<font>{<strong> "+fromName+"</strong>  }退出了你的群</font>");
+		      	showWarn({"fromName":fromName,"msg":"退出了你的群"});
 	        	  break;
 	        	case 7:
-	        		 $('#myModal').modal();
-		      		 $("#addInfo").html("<font>{<strong> "+fromName+"</strong>  }拉你进群</font>");
-		        	  break;
+		      	showWarn({"fromName":fromName,"msg":"拉你进群"});
+		          break;
 	        	case 8:
-	        		 $('#myModal').modal();
-		      		 $("#addInfo").html("<font>{<strong> "+fromName+"</strong>  }踢我出群</font>");
-		        	  break;
+		      	showWarn({"fromName":fromName,"msg":"踢我出群"});
+		          break;
 	        	default:
-		        	  showContent(data);
-		        	  break;
+		        showContent(data);
+		          break;
 	        	}
 	        	
 	        });
 	    });
 	}
 
+	function showWarn(obj) {
+	$('#myModal').modal();
+	 $("#addInfo").html("<font>{<strong> "+obj.fromName+"</strong>}"+obj.msg+"</font>");
+	}
+
 	function disconnect() {
-	    if (stompClient !== null) {
+	    if (stompClient !== null&&stompClient) {
 	        stompClient.disconnect();
 	    }
 	}

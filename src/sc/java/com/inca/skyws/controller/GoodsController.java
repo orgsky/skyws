@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.inca.skyws.model.GoodsInfo;
@@ -57,6 +58,9 @@ public class GoodsController {
 	@RequestMapping("/goodsinfo")
 	public String goodsInfo(Model model, HttpServletRequest req) {
 		String id = req.getParameter("id");
+		if (StringUtils.isEmpty(id)) {
+			id="-1";
+		}
 		log.info("id=" + id);
 		LoginUser loginUser = LoginUser.getLoginUser();
 		GoodsInfo goods = new GoodsInfo();

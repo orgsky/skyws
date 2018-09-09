@@ -25,4 +25,6 @@ public interface UserService {
 	
 	User findUserByUsercode(String usercode);
 
+	public List<UserInfo> findLatestChatFriends() throws SysException, Exception;
+
 }

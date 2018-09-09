@@ -18,6 +18,7 @@
 	//成员数组
 	var userArray = new Array()
 	var userList=/*[[${userList}]]*/;
+	//默认查询个人
 	var searchType="1";
 	var wantPanty;
 	userList.forEach(function( val, index ) {
@@ -81,7 +82,7 @@
 				});
 				
 			}else if(barType=="lt"){
-				$.post("/user/myfriends",  {},  function(data,status){
+				$.post("/user/latestChatFriends",  {},  function(data,status){
 					chatUser=null;
 					clearChatLeft();
 					data.data.forEach(function( val, index ) {
@@ -119,20 +120,20 @@
 	}
 	
 	function clearGroup(){
-    		$("#groupId").val('');
-    		$("#groupCode").val('');
-    		$("#groupName").val('');
-    		$("#sequence").val('');
+    	$("#groupId").val('');
+    	$("#groupCode").val('');
+    	$("#groupName").val('');
+    	$("#sequence").val('');
 		$("#createGroupBtn").attr('disabled',false);
 	}
 	
 	function changeSearchType(type){
-			searchType=type;
-			console.log("type="+type);
-			$("#serTypeBtn").html("个人");
-			if(type=="2"){
+		searchType=type;
+		console.log("searchType="+type);
+		$("#serTypeBtn").html("个人");
+		if(type=="2"){
 			$("#serTypeBtn").html("群聊");
-			}
+		}
 	}
 	
 	function confirmRelation(){
@@ -148,7 +149,6 @@
 			}); */
 		$('#addInfo').text('通知已经发送,请等待回复');
 		$('.modal-body').removeClass('alert-info').addClass('alert-success');
-			
 		});
 		
 		
@@ -156,8 +156,6 @@
 	function cancelConfirm(){
 		$('.modal-body').removeClass('alert-success').addClass('alert-info')
 	}
-	
-	
 	//]]>
 </script>
 <style type="text/css">

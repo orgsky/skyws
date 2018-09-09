@@ -91,6 +91,25 @@ public class SkyUserController {
 			return ApiResponse.fail().putMsg(e.getMessage());
 		}
 	}
+	
+	
+	@RequestMapping("/latestChatFriends")
+	@ResponseBody
+	public ApiResponse latestChatFriends() {
+		try {
+			log.info("我的最近聊天好友数据...");
+			List<UserInfo> groupInfo = userService.findLatestChatFriends();
+			log.info("我的最近聊天好友数据end");
+			return ApiResponse.sucess().putData(groupInfo);
+		} catch (SysException e) {
+			ExceptionEnum xe = e.getExceptionEnum();
+			log.info("我的最近聊天好友数据异常:" + xe.getCode() + ":" + xe.getMsg());
+			return ApiResponse.fail().putMsg(xe.getCode() + ":" + xe.getMsg());
+		} catch (Exception e) {
+			log.info("我的最近聊天好友数据异常:" + e.getMessage());
+			return ApiResponse.fail().putMsg(e.getMessage());
+		}
+	}
 
 
 

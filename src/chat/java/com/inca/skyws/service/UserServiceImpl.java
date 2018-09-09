@@ -18,9 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.inca.skyws.bean.Group;
 import com.inca.skyws.bean.User;
 import com.inca.skyws.exception.SysException;
 import com.inca.skyws.model.UserInfo;
+import com.inca.skyws.repository.GroupDao;
 import com.inca.skyws.repository.UserDao;
 import com.inca.skyws.system.LoginUser;
 import com.inca.skyws.tools.FilePathUtils;
@@ -32,6 +34,8 @@ public class UserServiceImpl implements UserService {
 	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 	@Autowired
 	UserDao userDao;
+	@Autowired
+	GroupDao groupDao;
 	@Autowired
 	FilePathUtils pathUtils;
 	@Autowired
@@ -102,6 +106,47 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findUserByUsercode(String usercode) {
 		return userDao.findOneByUsercode(usercode);
+	}
+
+	@Override
+	public List<UserInfo> findLatestChatFriends() throws Exception {
+		List<UserInfo> friends = new ArrayList<UserInfo>();
+		StringBuffer chatingGroupSql = new StringBuffer();
+		chatingGroupSql
+				.append("(select a.id from sys_group a where a.owner_id=" + LoginUser.getLoginUser().getId() + " ");
+		chatingGroupSql.append(" union ");
+		chatingGroupSql.append(" select a.group_id id from sys_relation a where a.owner_id="
+				+ LoginUser.getLoginUser().getId() + " and a.group_id is not null )");
+		StringBuffer sql = new StringBuffer();
+		sql.append("select distinct t.from_id,t.chat_type from (");
+		sql.append("select distinct a.from_id,a.chat_type,a.from_time from sys_message a where a.to_id="
+				+ LoginUser.getLoginUser().getId() + " and a.chat_type=1 ");
+		sql.append(" union ");
+		sql.append("select distinct a.from_id,a.chat_type,a.from_time from sys_message a where a.chat_type=2 ");
+		sql.append(" and a.to_id in " + chatingGroupSql);
+		sql.append(") t order by t.from_time desc");
+		List<Map<String, Object>> chatFriends = select.doQuery(sql.toString());
+		if (chatFriends != null && chatFriends.size() > 0) {
+			for (Map<String, Object> chatFriend : chatFriends) {
+				Integer chatType = (Integer) chatFriend.get("chat_type");
+				Integer fromId = (Integer) chatFriend.get("from_id");
+				UserInfo userInfo = new UserInfo();
+				if (chatType == null)
+					continue;
+				if (chatType == 1) {
+					BeanUtils.copyProperties(userDao.getOne(fromId), userInfo);
+					userInfo.setType(1);
+				} else {
+					Group one = groupDao.getOne(fromId);
+					userInfo.setType(2);
+					userInfo.setUsercode(one.getGroupCode());
+					userInfo.setUsername(one.getGroupName());
+					userInfo.setId(fromId);
+				}
+				friends.add(userInfo);
+			}
+		}
+		return friends;
 	}
 
 }

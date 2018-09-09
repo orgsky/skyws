@@ -32,7 +32,7 @@ public class SkyChatController {
 		log.info(req.getSession().getId());
 		try {
 			model.addAttribute("loginUser", LoginUser.getLoginUser());
-			model.addAttribute("userList", userService.findAllMyFriends());
+			model.addAttribute("userList", userService.findLatestChatFriends());
 		} catch (Exception e) {
 			model.addAttribute("exception", e.getMessage());
 		}
