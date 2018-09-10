@@ -95,25 +95,20 @@ function newGroup(tag, user,chating){
 
 
 function loadChatRecord(partCode){
-	$.post("/latestrecord",  {},  function(data,status){
-		data.data.forEach(function( val, index ) {
-			
-			if(data.data.from.id!=loginUser.id){
-				if (data.data.to.usercode.indexOf("QL") > -1) {
-					
-				}else if (data.data.to.usercode.indexOf("YH") > -1) {
-					modChatUser('.ulist',new Array(data.data.from.id,data.data.from.username, '/static/img/0.jpg',data.data.from.usercode));
+	$.post("/latestrecord",  {"partCode":partCode},  function(data,status){
+		data.data.forEach(function(val, index ) {
+			if(val.from.usercode!=loginUser.usercode){
+				if (val.to.usercode.indexOf("QL") > -1) {
+					modChatUser('.ulist',new Array(val.to.id,val.to.username, '/static/img/0.jpg',val.to.usercode));
+					$("#user_contitle_user" + chatUser[0]).append('<div style="text-align:left;padding-right:50px;font-family:Georgia;">' + val.from.username + val.toTime + "<p>" + val.content + '</p></div>');
+				}else if (val.to.usercode.indexOf("YH") > -1) {
+					modChatUser('.ulist',new Array(val.from.id,val.from.username, '/static/img/0.jpg',val.from.usercode));
+					$("#user_contitle_user" + chatUser[0]).append('<div style="text-align:left;font-family:Georgia;">' + val.from.username + val.fromTime + "<p>" + val.content + '</p></div>');
 				}
-				$("#user_contitle_user" + data.data.from.id).append('<div   style="text-align:left;font-family:Georgia;">' + data.data.from.username + data.data.fromTime + "<p>" + data.data.content + '</p></div>');
+				$(".my_show").scrollTop($(".con_box").height() - $(".my_show").height());// 让滚动滚到最底端
+			}else{
+				alert(data.data.content)
 			}
-			var g=new Array(val.id,val.groupName, '/static/img/0.jpg',val.groupCode);
-			if(index==0){
-				chatUser=g;
-			}
-			newGroup('.ulist', g);
-			stompClient.subscribe('/talk/'+val.groupCode, function (result) {
-		        	showContent(JSON.parse(result.body));
-		        });
 		});
 	});
 	

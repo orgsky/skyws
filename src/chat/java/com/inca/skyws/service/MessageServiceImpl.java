@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.inca.skyws.bean.Group;
 import com.inca.skyws.bean.Message;
 import com.inca.skyws.bean.User;
 import com.inca.skyws.exception.SysException;
@@ -42,37 +44,68 @@ public class MessageServiceImpl implements MessageService {
 	MessageDao msgDao;
 
 	@Override
-	public List<MessageInfo> getTheParterMessages(String partCode) throws SysException {
-		User friend = userDao.findOneByUsercode(partCode);
-		User mine = userDao.getOne(LoginUser.getLoginUser().getId());
+	public List<MessageInfo> getTheParterMessages(String partCode) throws Exception {
 		List<Message> msgs = new ArrayList<Message>();
-		if (StringUtils.startsWithIgnoreCase(partCode, "QL")) {
-			msgs.addAll(msgDao.findAllByChatTypeAndToAndFrom(2, mine, friend));
-		} else if (StringUtils.startsWithIgnoreCase(partCode, "YH")) {
-			msgs.addAll(msgDao.findAllByChatTypeAndToAndFrom(1, mine, friend));
-		}
 		List<MessageInfo> msgsInfo=new ArrayList<MessageInfo>();
-		for (Message msg : msgs) {
-			MessageInfo info=new MessageInfo();
-			User from = msg.getFrom();
-			UserInfo fromInfo=new UserInfo();
-			BeanUtils.copyProperties(from, fromInfo);
-			info.setFrom(fromInfo);
-			
-			User to = msg.getTo();
-			UserInfo toInfo=new UserInfo();
-			BeanUtils.copyProperties(to, toInfo);
-			info.setFrom(toInfo);
-			Date fromTime = msg.getFromTime();
-			String fromTimeS = sdf.format(fromTime);
-			info.setFromTime(fromTimeS);
-			Date toTime = msg.getToTime();
-			String toTimeS = sdf.format(toTime);
-			info.setToTime(toTimeS);
-			info.setChatType(msg.getChatType());
-			info.setMsgType(msg.getMsgType());
-			info.setContent(msg.getContent());
-			msgsInfo.add(info);
+		if (StringUtils.startsWithIgnoreCase(partCode, "QL")) {
+			Group group = groupDao.findOneByGroupCode(partCode);
+			List<Integer> msgIds = new ArrayList<Integer>();
+			List<Map<String, Object>> maps = select.doQuery("select a.* from sys_message a where a.to_id="+group.getId()+" and a.chat_type=2 order by a.id");
+			for (Map<String, Object> map : maps) {
+				MessageInfo info = new MessageInfo();
+				BeanUtils.copyProperties(map, info);
+				Integer fromId = (Integer) map.get("from_id");
+				Integer toId = (Integer) map.get("to_id");
+
+				User from = userDao.findById(fromId).get();
+				UserInfo fromInfo = new UserInfo();
+				BeanUtils.copyProperties(from, fromInfo);
+				info.setFrom(fromInfo);
+
+				UserInfo toInfo = new UserInfo();
+
+				toInfo.setId(group.getId());
+				toInfo.setUsercode(partCode);
+				toInfo.setUsername(group.getGroupName());
+				toInfo.setType(2);
+				info.setTo(toInfo);
+				Date fromTime = (Date) map.get("from_time");
+				String fromTimeS = sdf.format(fromTime);
+				info.setFromTime(fromTimeS);
+				Date toTime = (Date) map.get("to_time");
+				String toTimeS = sdf.format(toTime);
+				info.setToTime(toTimeS);
+				info.setChatType(2);
+				info.setMsgType(1);
+				info.setContent((String) map.get("content"));
+				msgsInfo.add(info);
+			}
+		} else if (StringUtils.startsWithIgnoreCase(partCode, "YH")) {
+			User mine = userDao.getOne(LoginUser.getLoginUser().getId());
+			User friend = userDao.findOneByUsercode(partCode);
+			msgs.addAll(msgDao.findAllByChatTypeAndToAndFrom(1, mine, friend));
+			for (Message msg : msgs) {
+				MessageInfo info=new MessageInfo();
+				User from = msg.getFrom();
+				UserInfo fromInfo=new UserInfo();
+				BeanUtils.copyProperties(from, fromInfo);
+				info.setFrom(fromInfo);
+				
+				User to = msg.getTo();
+				UserInfo toInfo=new UserInfo();
+				BeanUtils.copyProperties(to, toInfo);
+				info.setFrom(toInfo);
+				Date fromTime = msg.getFromTime();
+				String fromTimeS = sdf.format(fromTime);
+				info.setFromTime(fromTimeS);
+				Date toTime = msg.getToTime();
+				String toTimeS = sdf.format(toTime);
+				info.setToTime(toTimeS);
+				info.setChatType(msg.getChatType());
+				info.setMsgType(msg.getMsgType());
+				info.setContent(msg.getContent());
+				msgsInfo.add(info);
+			}
 		}
 		return msgsInfo;
 	}

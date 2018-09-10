@@ -63,6 +63,8 @@ public class SkyMsgController {
 			ExceptionEnum xe = e.getExceptionEnum();
 			log.info("查询用户异常:" + xe.getCode() + ":" + xe.getMsg());
 			return ApiResponse.fail().putMsg(xe.getCode() + ":" + xe.getMsg());
+		} catch (Exception e) {
+			return ApiResponse.fail().putMsg(e.getMessage());
 		}
 	}
 }

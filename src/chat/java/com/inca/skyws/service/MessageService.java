@@ -8,5 +8,5 @@ import com.inca.skyws.model.MessageInfo;
 public interface MessageService {
 	public static final String NAME = "messageService";
 
-	public List<MessageInfo> getTheParterMessages(String partCode) throws SysException;
+	public List<MessageInfo> getTheParterMessages(String partCode) throws SysException, Exception;
 }
