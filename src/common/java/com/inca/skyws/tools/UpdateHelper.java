@@ -21,7 +21,7 @@ public class UpdateHelper {
 	JdbcTemplate jdbc;
 
 	public void doUpdate(String sql) throws Exception {
-		doUpdate(sql);
+		jdbc.execute(sql);
 	}
 
 	public void doUpdate(String sql, Object[] args) throws Exception {
