@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserInfo> findAllMyFriends() throws Exception {
-		StringBuffer sql=new StringBuffer("select a.friend_id id,b.username,b.usercode from sys_relation a ");
+		StringBuffer sql=new StringBuffer("select distinct a.friend_id id,b.username,b.usercode from sys_relation a ");
 		sql.append("left join sys_user b on b.id=a.friend_id ");
 		sql.append("where  a.relation_type= 1 ");
 		sql.append("and a.owner_id="+LoginUser.getLoginUser().getId()+"  order by a.id ");
@@ -118,18 +118,18 @@ public class UserServiceImpl implements UserService {
 		chatingGroupSql.append(" select a.group_id id from sys_relation a where a.owner_id="
 				+ LoginUser.getLoginUser().getId() + " and a.group_id is not null )");
 		StringBuffer sql = new StringBuffer();
-		sql.append("select distinct t.from_id,t.chat_type from (");
-		sql.append("select distinct a.from_id,a.chat_type,a.from_time from sys_message a where a.to_id="
+		sql.append("select distinct t.to_id,t.chat_type from (");
+		sql.append("select distinct a.to_id,a.chat_type,a.from_time from sys_message a where a.from_id="
 				+ LoginUser.getLoginUser().getId() + " and a.chat_type=1 ");
 		sql.append(" union ");
-		sql.append("select distinct a.from_id,a.chat_type,a.from_time from sys_message a where a.chat_type=2 ");
+		sql.append("select distinct a.to_id,a.chat_type,a.from_time from sys_message a where a.chat_type=2 ");
 		sql.append(" and a.to_id in " + chatingGroupSql);
 		sql.append(") t order by t.from_time desc");
 		List<Map<String, Object>> chatFriends = select.doQuery(sql.toString());
 		if (chatFriends != null && chatFriends.size() > 0) {
 			for (Map<String, Object> chatFriend : chatFriends) {
 				Integer chatType = (Integer) chatFriend.get("chat_type");
-				Integer fromId = (Integer) chatFriend.get("from_id");
+				Integer fromId = (Integer) chatFriend.get("to_id");
 				UserInfo userInfo = new UserInfo();
 				if (chatType == null)
 					continue;

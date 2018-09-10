@@ -3,8 +3,6 @@ var stompClient;
 $(function() {
 	disconnect();
 	connect();
-////////////////////////////////socket/////////////////////////////////////////////////
-	
 	$("body").bind('keyup', function(event) {
 		if (event.keyCode == 13) {
 			sendMsg();
@@ -13,13 +11,12 @@ $(function() {
 	$("#btn_send").click(function() {
 		sendMsg();
 	})
-
 	for (i = 0; i < userArray.length; i++) {
 		newUser('.ulist', userArray[i]);
 	}
 	$("#texterea").focus(function(){
 		$("#texterea").val("");
-		});
+	});
 })
 
 	function sibHide(tag) {
@@ -51,7 +48,7 @@ $(function() {
 		});
 	}
 
-function sendMsg() {
+	function sendMsg() {
 		var t = new Date().toLocaleTimeString();// 当前时间
 		if ($("#texterea").val()) {
 			var msg=trim($("#texterea").val()) ;
@@ -138,11 +135,13 @@ function loadChatRecord(partCode){
 	}
 
 	function hoverUser(tag) {
-		$(tag).hover(function() {
-			$(this).addClass("hover");
-		}, function() {
-			$(this).removeClass("hover");
-		});
+		$(tag).hover(
+				function() {
+					$(this).addClass("hover");
+				}, 
+				function() {
+					$(this).removeClass("hover");
+				});
 	}
 
 	function newUser(tag, user,chating) {
