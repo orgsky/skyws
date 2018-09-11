@@ -104,7 +104,6 @@ function loadChatRecord(partCode){
 					$("#user_contitle_user" + chatUser[0]).append('<div style="text-align:left;padding-right:50px;font-family:Georgia;">' + val.from.username + val.toTime + "<p>" + val.content + '</p></div>');
 				}else if (val.to.usercode.indexOf("YH") > -1) {
 					modChatUser('.ulist',new Array(val.to.id,val.to.username, '/static/img/0.jpg',val.to.usercode));
-					alert(val.from.username+"::"+val.content);
 					$("#user_contitle_user" + chatUser[0]).append('<div style="text-align:left;font-family:Georgia;">' + val.from.username + val.fromTime + "<p>" + val.content + '</p></div>');
 				}
 				$(".my_show").scrollTop($(".con_box").height() - $(".my_show").height());// 让滚动滚到最底端
