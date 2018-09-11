@@ -66,8 +66,10 @@ public class WebSocketService {
 		Message save = msgDao.save(msg);
 		Integer id = save.getId();
 		try {
-			Group group = groupDao.findOneByGroupCode(im.getTo());
-			update.doUpdate("update sys_message set to_id="+group.getId()+" where id="+id);
+			if (type == 2){
+				Group group = groupDao.findOneByGroupCode(im.getTo());
+				update.doUpdate("update sys_message set to_id="+group.getId()+" where id="+id);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

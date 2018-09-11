@@ -81,29 +81,38 @@ public class MessageServiceImpl implements MessageService {
 				msgsInfo.add(info);
 			}
 		} else if (StringUtils.startsWithIgnoreCase(partCode, "YH")) {
-			User mine = userDao.getOne(LoginUser.getLoginUser().getId());
 			User friend = userDao.findOneByUsercode(partCode);
-			msgs.addAll(msgDao.findAllByChatTypeAndToAndFrom(1, mine, friend));
-			for (Message msg : msgs) {
-				MessageInfo info=new MessageInfo();
-				User from = msg.getFrom();
-				UserInfo fromInfo=new UserInfo();
+			String sql = "select a.* from sys_message a where ((a.to_id="+LoginUser.getLoginUser().getId()+" and a.from_id="+friend.getId()+") or (a.to_id="+friend.getId()+" and a.from_id="+LoginUser.getLoginUser().getId()+")) and a.chat_type=1 order by a.id";
+			List<Map<String, Object>> maps = select.doQuery(sql);
+			User mine = userDao.getOne(LoginUser.getLoginUser().getId());
+			log.info("mine:"+mine.getId());
+			for (Map<String, Object> map : maps) {
+				MessageInfo info = new MessageInfo();
+				BeanUtils.copyProperties(map, info);
+				Integer fromId = (Integer) map.get("from_id");
+				Integer toId = (Integer) map.get("to_id");
+
+				User from = userDao.findById(fromId).get();
+				UserInfo fromInfo = new UserInfo();
 				BeanUtils.copyProperties(from, fromInfo);
 				info.setFrom(fromInfo);
-				
-				User to = msg.getTo();
-				UserInfo toInfo=new UserInfo();
-				BeanUtils.copyProperties(to, toInfo);
-				info.setFrom(toInfo);
-				Date fromTime = msg.getFromTime();
+
+				UserInfo toInfo = new UserInfo();
+
+				toInfo.setId(friend.getId());
+				toInfo.setUsercode(partCode);
+				toInfo.setUsername(friend.getUsername());
+				toInfo.setType(2);
+				info.setTo(toInfo);
+				Date fromTime = (Date) map.get("from_time");
 				String fromTimeS = sdf.format(fromTime);
 				info.setFromTime(fromTimeS);
-				Date toTime = msg.getToTime();
+				Date toTime = (Date) map.get("to_time");
 				String toTimeS = sdf.format(toTime);
 				info.setToTime(toTimeS);
-				info.setChatType(msg.getChatType());
-				info.setMsgType(msg.getMsgType());
-				info.setContent(msg.getContent());
+				info.setChatType(2);
+				info.setMsgType(1);
+				info.setContent((String) map.get("content"));
 				msgsInfo.add(info);
 			}
 		}
