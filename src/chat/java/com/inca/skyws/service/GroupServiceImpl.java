@@ -45,7 +45,7 @@ public class GroupServiceImpl implements GroupService {
 	public List<GroupInfo> findAllMyGroups() throws Exception {
 		List<GroupInfo> groupInfos = new ArrayList<GroupInfo>();
 		User owner = userDao.findById(LoginUser.getLoginUser().getId()).get();
-		String sql = "select a.group_id from sys_relation a  where a.owner_id=" + owner.getId()
+		String sql = "select distinct a.group_id from sys_relation a  where a.owner_id=" + owner.getId()
 				+ " and a.relation_type=2 union select b.id group_id from sys_group b where b. owner_id="+ owner.getId();
 		List<Map<String, Object>> maps = select.doQuery(sql);
 		if (maps == null || maps.size() <= 0) {
